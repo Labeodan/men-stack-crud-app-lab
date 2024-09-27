@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const morgan = require("morgan")
 require("dotenv/config")
 const Dogs = require("./models/dogs")
+const methodOverride = require("method-override")
+
 
 // !Variables
 const app = express();
@@ -15,18 +17,63 @@ const port = 3000
 app.use(morgan("dev"))
 // for using stylesheets
 app.use(express.static("public"))
+// Accepting forms data
+app.use(express.urlencoded({extended: true}));
+// override post method
+app.use(methodOverride("_method"))
 
 
 // !Routes
-// Landing Page
+// Home Page
+app.get("/", (req, res) => {
+    res.render("index.ejs")
+})
+
+
+// Dogs Page
 app.get("/dogs", async (req, res) => {
     try {
-        res.render("index.ejs")
+        const dogs = await Dogs.find()
+        return res.render("dogs/index.ejs", {
+            dogs
+        })
     } catch (error) {
         res.status(500).send("Internal Server Error")
     }
 } )
 
+///dogs/new
+app.get("/dogs/new", (req, res) => {
+    res.render("./dogs/new.ejs")
+}) 
+
+
+// create /dogs
+app.post("/dogs", async (req, res) => {
+    try {
+        const dog = await Dogs.create(req.body)
+       return res.redirect("/dogs/new")
+    } catch (error) {
+        console.log(error)
+       return  res.status(500).send("Internal Server Error")
+    }
+})
+
+
+app.get("/dogs/:id", async (req, res) => {
+    try {
+        id = req.params.id
+        const dog = await Dogs.findById(id)
+        res.render("dogs/show.ejs", {
+            dog
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send("Internal Server Error")
+    }
+})
+
+// app.delete("")
 
 
 

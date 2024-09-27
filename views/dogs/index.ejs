@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h1>Dog Breeds</h1>
+    <% dogs.forEach(dog => { %>
+        <p><a href="/dogs/<%= dog.id %>"><%= dog.breed %></a></p>
+       <% }) %>
+       <br>
+       <a href="/">Return TO Home Page</a>
+       <a href="/dogs/new">Add New Breed</a>
+</body>
+</html>
