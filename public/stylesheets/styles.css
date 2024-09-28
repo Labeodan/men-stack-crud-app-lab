@@ -1,0 +1,20 @@
+body {
+    background-color: lightblue;
+    width: 100vw;
+    height: 100vh;
+}
+
+body div {
+    margin: auto;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    border-radius: 20px;
+    border: 2px dashed lightcoral;
+    padding: 20px;
+    align-items: center;
+    font-size: 17px;
+    color: brown;
+}

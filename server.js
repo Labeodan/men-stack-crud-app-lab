@@ -12,11 +12,12 @@ const port = 3000
 
 
 
+
 // !MIDDLEWEAR
 // app.set("view engin", "ejs");
 app.use(morgan("dev"))
 // for using stylesheets
-app.use(express.static("public"))
+app.use('/public', express.static('public'));
 // Accepting forms data
 app.use(express.urlencoded({extended: true}));
 // override post method
@@ -52,6 +53,7 @@ app.get("/dogs/new", (req, res) => {
 app.post("/dogs", async (req, res) => {
     try {
         const dog = await Dogs.create(req.body)
+
        return res.redirect("/dogs/new")
     } catch (error) {
         console.log(error)
@@ -73,10 +75,51 @@ app.get("/dogs/:id", async (req, res) => {
     }
 })
 
-// app.delete("")
+// Delete resource
+app.delete("/dogs/:id", async (req, res) => {
+    try {
+        const id = req.params.id
+        const deletedResource = await Dogs.findByIdAndDelete(id)
+        console.log(deletedResource)
+        res.redirect("/dogs")
+    } catch (error) {
+        console.log(error)   
+    }
+})
+
+
+// Edit resource
+app.get("/dogs/:id/edit", async (req, res) =>{
+    try {
+        const id = req.params.id
+        const dog = await Dogs.findById(id)
+       res.render("dogs/edit.ejs", {dog})
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send("Internal Server Error")
+    }
+})
+
+
+app.put("/dogs/:id", async (req, res) => {
+    try {
+        const id = req.params.id
+        const updatedDog = req.body
+        const dog = await Dogs.findByIdAndUpdate(id, updatedDog)
+        res.redirect(`/dogs/${id}`)
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send("Internal Server Error")
+    }
+})
 
 
 
+
+// ! 404
+app.use("*", (req, res) => {
+    return res.send("Page Not Found")
+})
 
 
 

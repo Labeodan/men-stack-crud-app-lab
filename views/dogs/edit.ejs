@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog</title>
+    <link rel="stylesheet" href="/public/stylesheets/styles.css">
+</head>
+<body>
+    <div>
+        <h1>Edit: <%= dog.breed %></h1>
+        <form action="/dogs/<%= dog._id%>?_method=PUT" method="POST">
+            <label for="breed">Breed:</label><br>
+            <input type="text" id="breed" name="breed" value="<%=dog.breed%>"><br><br>
+            
+            <label for="size">Size:</label><br>
+            <select id="size" name="size">
+                <option value="Small" <%= dog.size === "Small" ? "selected" : "" %>>Small</option>
+                <option value="Medium" <%= dog.size === "Medium" ? "selected" : "" %>>Medium</option>
+                <option value="Large" <%= dog.size === "Large" ? "selected" : "" %>>Large</option>
+            </select><br><br>
+            
+            <label for="lifespan_years">Average Lifespan (years):</label><br>
+            <input type="number" id="lifespan_years" name="lifespan_years"  value="<%= dog.lifespan_years %>"><br><br>
+            
+            <label for="temprament">Temprament:</label><br>
+            <input type="text" id="temprament" name="temprament" value="<%=dog.temprament%>"><br><br>
+            
+            <label for="origin">Origin:</label><br>
+            <input type="text" id="origin" name="origin" value="<%= dog.origin %>"><br><br>
+            
+            <label for="averageWeight_Kg">Average Weight (kg):</label><br>
+            <input type="number" id="averageWeight_Kg" name="averageWeight_Kg" value="<%=dog.averageWeight_Kg%>"><br><br>
+            
+            <input type="submit" value="Edit dog">
+        </form>
+        <a href="/dogs">See all Breeds</a> 
+        <a href="/">Go Home</a>
+    </div>  
+</body>
+</html>
