@@ -1,0 +1,74 @@
+[
+    {
+        "breed": "Rottweiler",
+        "size": "Large",
+        "lifespan_years": 8,
+        "temprament": "Confident, Fearless, Good-Natured",
+        "origin": "Germany",
+        "averageWeight_Kg": 50
+    },
+    {
+        "breed": "Labrador Retriever",
+        "size": "Large",
+        "lifespan_years": 12,
+        "temprament": "Friendly, Active, Outgoing",
+        "origin": "Canada",
+        "averageWeight_Kg": 32
+    },
+    {
+        "breed": "German Shepherd",
+        "size": "Large",
+        "lifespan_years": 11,
+        "temprament": "Confident, Courageous, Intelligent",
+        "origin": "Germany",
+        "averageWeight_Kg": 35
+    },
+    {
+        "breed": "Golden Retriever",
+        "size": "Large",
+        "lifespan_years": 11,
+        "temprament": "Friendly, Intelligent, Devoted",
+        "origin": "Scotland",
+        "averageWeight_Kg": 29
+    },
+    {
+        "breed": "Bulldog",
+        "size": "Medium",
+        "lifespan_years": 9,
+        "temprament": "Docile, Willful, Friendly",
+        "origin": "England",
+        "averageWeight_Kg": 21
+    },
+    {
+        "breed": "Poodle",
+        "size": "Medium",
+        "lifespan_years": 13,
+        "temprament": "Intelligent, Active, Alert",
+        "origin": "Germany/France",
+        "averageWeight_Kg": 17
+    },
+    {
+        "breed": "Beagle",
+        "size": "Medium",
+        "lifespan_years": 13,
+        "temprament": "Curious, Friendly, Merry",
+        "origin": "England",
+        "averageWeight_Kg": 10
+    },
+    {
+        "breed": "Dachshund",
+        "size": "Small",
+        "lifespan_years": 14,
+        "temprament": "Clever, Lively, Brave",
+        "origin": "Germany",
+        "averageWeight_Kg": 11
+    },
+    {
+        "breed": "Siberian Husky",
+        "size": "Medium",
+        "lifespan_years": 13,
+        "temprament": "Outgoing, Friendly, Energetic",
+        "origin": "Siberia",
+        "averageWeight_Kg": 22
+    }
+]
