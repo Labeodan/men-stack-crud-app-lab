@@ -14,7 +14,7 @@ const port = 3000
 
 
 // !MIDDLEWEAR
-// app.set("view engin", "ejs");
+app.set("view engine", "ejs");
 app.use(morgan("dev"))
 // for using stylesheets
 app.use('/public', express.static('public'));
@@ -27,7 +27,7 @@ app.use(methodOverride("_method"))
 // !Routes
 // Home Page
 app.get("/", (req, res) => {
-    res.render("index.ejs")
+    res.render("index")
 })
 
 
@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 app.get("/dogs", async (req, res) => {
     try {
         const dogs = await Dogs.find()
-        return res.render("dogs/index.ejs", {
+        return res.render("dogs/index", {
             dogs
         })
     } catch (error) {
@@ -45,7 +45,7 @@ app.get("/dogs", async (req, res) => {
 
 ///dogs/new
 app.get("/dogs/new", (req, res) => {
-    res.render("./dogs/new.ejs")
+    res.render("dogs/new")
 }) 
 
 
@@ -66,7 +66,7 @@ app.get("/dogs/:id", async (req, res) => {
     try {
         id = req.params.id
         const dog = await Dogs.findById(id)
-        res.render("dogs/show.ejs", {
+        res.render("dogs/show", {
             dog
         })
     } catch (error) {
@@ -93,7 +93,7 @@ app.get("/dogs/:id/edit", async (req, res) =>{
     try {
         const id = req.params.id
         const dog = await Dogs.findById(id)
-       res.render("dogs/edit.ejs", {dog})
+       res.render("dogs/edit", {dog})
     } catch (error) {
         console.log(error)
         return res.status(500).send("Internal Server Error")
