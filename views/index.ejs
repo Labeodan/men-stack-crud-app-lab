@@ -8,9 +8,16 @@
 </head>
 <body>
     <div>
+        <% if (user) { %>
+         <h1>Welcome to the Dog app, <%= user.username %>!</h1>
+        <% } else { %>
+            <h1>Welcome to the events app!</h1>
+        <% } %>
         <h1>HOME PAGE</h1>
         <a href="/dogs">View Dog Breeds</a>
         <a href="/dogs/new">Add new Breed</a>
+        <p><a href="/auth/sign-out">sign out</a></p>
+        <p><a href="/vip-lounge">Enter vip lounge</a></p>
     </div>
 </body>
 </html>

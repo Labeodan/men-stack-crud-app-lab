@@ -4,7 +4,11 @@ const morgan = require("morgan")
 require("dotenv/config")
 const Dogs = require("./models/dogs")
 const methodOverride = require("method-override")
+const session = require("express-session")
+const router = require("./controllers/events")
+const authrouter = require("./controllers/auth")
 
+console.log()
 
 // !Variables
 const app = express();
@@ -22,96 +26,36 @@ app.use('/public', express.static('public'));
 app.use(express.urlencoded({extended: true}));
 // override post method
 app.use(methodOverride("_method"))
+app.use(session({
+secret: process.env.SESSION_SECRET,
+resave: false,
+saveUninitialized: true
+}))
 
 
 // !Routes
-// Home Page
+// Landing Page
 app.get("/", (req, res) => {
-    res.render("index")
+    console.log(req.session)
+    res.render("index", {
+        user: req.session.user
+    })
 })
 
 
-// Dogs Page
-app.get("/dogs", async (req, res) => {
-    try {
-        const dogs = await Dogs.find()
-        return res.render("dogs/index", {
-            dogs
-        })
-    } catch (error) {
-        res.status(500).send("Internal Server Error")
-    }
-} )
 
-///dogs/new
-app.get("/dogs/new", (req, res) => {
-    res.render("dogs/new")
-}) 
-
-
-// create /dogs
-app.post("/dogs", async (req, res) => {
-    try {
-        const dog = await Dogs.create(req.body)
-
-       return res.redirect("/dogs/new")
-    } catch (error) {
-        console.log(error)
-       return  res.status(500).send("Internal Server Error")
+app.get("/vip-lounge", (req, res) => {
+    if (req.session.user) {
+        res.send(`Welcome to the party ${req.session.user.username}`)
+    } else {
+        res.send("Sorry no guests allowed")
     }
 })
 
 
-app.get("/dogs/:id", async (req, res) => {
-    try {
-        id = req.params.id
-        const dog = await Dogs.findById(id)
-        res.render("dogs/show", {
-            dog
-        })
-    } catch (error) {
-        console.log(error)
-        return res.status(500).send("Internal Server Error")
-    }
-})
+app.use("/dogs", router)
+app.use("/auth", authrouter)
 
-// Delete resource
-app.delete("/dogs/:id", async (req, res) => {
-    try {
-        const id = req.params.id
-        const deletedResource = await Dogs.findByIdAndDelete(id)
-        console.log(deletedResource)
-        res.redirect("/dogs")
-    } catch (error) {
-        console.log(error)   
-    }
-})
-
-
-// Edit resource
-app.get("/dogs/:id/edit", async (req, res) =>{
-    try {
-        const id = req.params.id
-        const dog = await Dogs.findById(id)
-       res.render("dogs/edit", {dog})
-    } catch (error) {
-        console.log(error)
-        return res.status(500).send("Internal Server Error")
-    }
-})
-
-
-app.put("/dogs/:id", async (req, res) => {
-    try {
-        const id = req.params.id
-        const updatedDog = req.body
-        const dog = await Dogs.findByIdAndUpdate(id, updatedDog)
-        res.redirect(`/dogs/${id}`)
-    } catch (error) {
-        console.log(error)
-        return res.status(500).send("Internal Server Error")
-    }
-})
 
 
 
