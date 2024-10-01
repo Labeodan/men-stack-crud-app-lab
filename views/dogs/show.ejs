@@ -14,14 +14,18 @@
         <p>Temprament: <%= dog.temprament %></p>
         <p>Origin: <%= dog.origin %></p>
         <p>Average Weight: <%= dog.averageWeight_Kg %>Kg</p>
+        <p>Breeeder: <%= dog.breeder.username %></p>
         <br>
         <hr>
         <br>
         <a href="/">Go Home</a>
-        <form action="/dogs/<%= dog._id%>?_method=DELETE" method="POST">
-            <button type="submit">Delete Breed</button>
-        </form>
-        <a href="/dogs/<%= dog._id%>/edit">Edit Breed</a>
+        <% if (dog.breeder._id.equals(user._id)) { %>
+         
+            <form action="/dogs/<%= dog._id%>?_method=DELETE" method="POST">
+                <button type="submit">Delete Breed</button>
+            </form>
+            <a href="/dogs/<%= dog._id%>/edit">Edit Breed</a>
+        <% } %>
     </div>
 </body>
 </html>

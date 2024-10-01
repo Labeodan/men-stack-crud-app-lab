@@ -6,7 +6,8 @@ const dogSchema = new mongoose.Schema({
     lifespan_years: { type: Number },
     temprament: { type: String },
     origin: { type: String },
-    averageWeight_Kg: { type: Number }
+    averageWeight_Kg: { type: Number },
+    breeder: {type: mongoose.Types.ObjectId, ref: "User", required:true}
 })
 
 // model

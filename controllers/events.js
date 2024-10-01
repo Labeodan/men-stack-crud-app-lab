@@ -29,8 +29,9 @@ router.get("/new", (req, res) => {
 // create /dogs
 router.post("/", async (req, res) => {
     try {
+        req.body.breeder = req.session.user._id
         const dog = await Dog.create(req.body)
-
+        console.log(dog)
        return res.redirect("/dogs/new")
     } catch (error) {
         console.log(error)
@@ -42,7 +43,9 @@ router.post("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
     try {
         const id = req.params.id
-        const dog = await Dog.findById(id)
+        const dog = await Dog.findById(id).populate("breeder")
+        // console.log("breederID:", dog.breeder._id)
+        // console.log("logged in user:", res.locals.user._id)
         res.render("dogs/show", {
             dog
         })
