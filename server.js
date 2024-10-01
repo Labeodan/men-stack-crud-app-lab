@@ -9,6 +9,8 @@ const router = require("./controllers/events")
 const authrouter = require("./controllers/auth")
 const MongoStore = require("connect-mongo");
 const isSignedIn = require("./middleware/is-signed-in.js");
+const passUserToView = require("./middleware/pass-user-to-view.js");
+
 
 
 
@@ -39,8 +41,9 @@ app.use(
         mongoUrl: process.env.MONGODB_URI,
       }),
     })
-  );
+);
   
+app.use(passUserToView);
 
 
 
@@ -48,16 +51,14 @@ app.use(
 // Landing Page
 app.get("/", (req, res) => {
     console.log(req.session)
-    res.render("index", {
-        user: req.session.user
-    })
+    res.render("index")
 })
 
 
 
 app.get("/vip-lounge", isSignedIn, (req, res) => {
-    res.send(`Welcome to the party ${req.session.user.username}.`);
-  });
+    res.send(`Welcome to the party ${res.locals.user.username}.`);
+});
   
 
 
