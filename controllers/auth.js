@@ -28,11 +28,16 @@ router.post("/sign-up", async (req, res) => {
         const newUser = await User.create(req.body)
 
         // Redirect to the signin page
-        res.redirect("auth/sign-in")
+        // res.redirect("auth/sign-in")
 
         // Automatically sign them in
+        req.session.user = {
+            username: newUser.username,
+        }
 
-
+        req.session.save(() => {
+            res.redirect("/")
+        })
 
 
     } catch (error) {
@@ -73,7 +78,11 @@ router.post("/sign-in", async (req, res) => {
             _id: userInDatabase._id
         }
 
-        return res.redirect("/")
+        req.session.save((err) => {
+            console.log(err)
+            return res.redirect("/")
+        })
+
 
     } catch (error) {
         console.log(error)
@@ -85,8 +94,13 @@ router.post("/sign-in", async (req, res) => {
 // Sign out
 router.get("/sign-out", (req, res) =>{
     // destroy esesting session
-    req.session.destroy()
-    return res.redirect("/")
+    req.session.destroy((err) => {
+        if (err) {
+            console.log(err)
+        } else {
+            return res.redirect("/")
+        }
+    })
 })
 
 module.exports = router

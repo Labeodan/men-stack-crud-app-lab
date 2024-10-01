@@ -7,6 +7,8 @@ const methodOverride = require("method-override")
 const session = require("express-session")
 const router = require("./controllers/events")
 const authrouter = require("./controllers/auth")
+const MongoStore = require("connect-mongo");
+
 
 console.log()
 
@@ -26,11 +28,18 @@ app.use('/public', express.static('public'));
 app.use(express.urlencoded({extended: true}));
 // override post method
 app.use(methodOverride("_method"))
-app.use(session({
-secret: process.env.SESSION_SECRET,
-resave: false,
-saveUninitialized: true
-}))
+app.use(
+    session({
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: true,
+      store: MongoStore.create({
+        mongoUrl: process.env.MONGODB_URI,
+      }),
+    })
+  );
+  
+
 
 
 // !Routes
