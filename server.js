@@ -8,6 +8,8 @@ const session = require("express-session")
 const router = require("./controllers/events")
 const authrouter = require("./controllers/auth")
 const MongoStore = require("connect-mongo");
+const isSignedIn = require("./middleware/is-signed-in.js");
+
 
 
 console.log()
@@ -53,16 +55,13 @@ app.get("/", (req, res) => {
 
 
 
-app.get("/vip-lounge", (req, res) => {
-    if (req.session.user) {
-        res.send(`Welcome to the party ${req.session.user.username}`)
-    } else {
-        res.send("Sorry no guests allowed")
-    }
-})
+app.get("/vip-lounge", isSignedIn, (req, res) => {
+    res.send(`Welcome to the party ${req.session.user.username}.`);
+  });
+  
 
 
-app.use("/dogs", router)
+app.use("/dogs", isSignedIn, router)
 app.use("/auth", authrouter)
 
 
