@@ -8,6 +8,7 @@
 </head>
 <body>
     <div>
+        <%- include('../partials/_nav') %>
         <h1>Edit: <%= dog.breed %></h1>
         <form action="/dogs/<%= dog._id%>?_method=PUT" method="POST">
             <label for="breed">Breed:</label><br>

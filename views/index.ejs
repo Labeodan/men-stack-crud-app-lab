@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/public/stylesheets/styles.css">
 </head>
 <body>
+    <%- include('./partials/_nav') %>
     <div>
         <% if (user) { %>
          <h1>Welcome to the Dog app, <%= user.username %>!</h1>

@@ -1,0 +1,17 @@
+<nav>
+    <!-- <img src="/images/logo.png" alt="Event App Logo"> -->
+    <ul>
+      <li><a href="/dogs">View all events</a></li>
+      
+      <% if (user) { %>
+        <li><a href="/dogs/new">Create event</a></li>
+        <li><a href="/auth/sign-out">Sign Out</a></li>
+      <% } else { %>
+        <li><a href="/auth/sign-up">Sign Up</a></li>
+        <li><a href="/auth/sign-in">Sign In</a></li>
+      <% } %>
+  
+      
+      
+    </ul>
+  </nav>

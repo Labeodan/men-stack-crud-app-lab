@@ -72,8 +72,16 @@ router.delete("/:id", async (req, res) => {
 router.get("/:id/edit", async (req, res) =>{
     try {
         const id = req.params.id
-        const dog = await Dog.findById(id)
-       res.render("dogs/edit", {dog})
+        if (mongoose.Types.ObjectId.isValid(id)) {
+            const dog = await Dog.findById(id)
+            if (!dog) {return next()}
+
+            if (!dog.breeder.equals(req.session.user._id)) {
+                return res.redirect(`/dogs/${id}`)
+            }
+
+            return res.render("dogs/edit", {dog})
+        }
     } catch (error) {
         console.log(error)
         return res.status(500).send("Internal Server Error")
@@ -84,9 +92,15 @@ router.get("/:id/edit", async (req, res) =>{
 router.put("/:id", async (req, res) => {
     try {
         const id = req.params.id
-        const updatedDog = req.body
-        const dog = await Dog.findByIdAndUpdate(id, updatedDog)
-        res.redirect(`/dogs/${id}`)
+        const dogToUpdate = await Dog.findById(id)
+        if (dogToUpdate.breeder.equals(req.session.user._id)) {
+            const updatedDog = req.body
+            const dog = await Dog.findByIdAndUpdate(id, updatedDog)
+           return  res.redirect(`/dogs/${id}`)  
+        } else {
+            throw new Error("User is not authorised to perform this action")
+        }
+
     } catch (error) {
         console.log(error)
         return res.status(500).send("Internal Server Error")
