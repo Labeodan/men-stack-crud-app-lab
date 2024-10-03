@@ -93,7 +93,7 @@ router.post("/sign-in", async (req, res) => {
 
 // Sign out
 router.get("/sign-out", (req, res) =>{
-    // destroy esesting session
+    // destroy existing session
     req.session.destroy((err) => {
         if (err) {
             console.log(err)

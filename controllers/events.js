@@ -43,7 +43,7 @@ router.post("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
     try {
         const id = req.params.id
-        const dog = await Dog.findById(id).populate("breeder")
+        const dog = await Dog.findById(id).populate("breeder").populate("reviews.user")
         // console.log("breederID:", dog.breeder._id)
         // console.log("logged in user:", res.locals.user._id)
         res.render("dogs/show", {
@@ -104,6 +104,52 @@ router.put("/:id", async (req, res) => {
     } catch (error) {
         console.log(error)
         return res.status(500).send("Internal Server Error")
+    }
+})
+
+
+// Review section
+router.post("/:id/reviews", async (req, res, next) => {
+    try {
+        // Add signed in user id to the user field
+    req.body.user = req.session.user._id
+
+    // Find the dog that we want to add the comment to
+    const dog = await Dog.findById(req.params.id)
+    if (!dog) return next() // send 404
+
+    // Push the req.body (new comment) into the comments array
+    dog.reviews.push(req.body)
+
+    // Save the dog we just added the comment to - this will persist to the database
+    await dog.save()
+
+    return res.redirect(`/dogs/${req.params.id}`)
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send('<h1>An error occurred.</h1>')
+    }
+})
+
+
+
+
+router.delete("/:dogId/reviews/:reviewId", async (req, res, next) => {
+    try {
+        const dog = await Dog.findById(req.params.dogId)
+        if (!dog) return next()
+
+        const reviewToDelete = dog.reviews.id(req.params.reviewId)
+
+        // delete review 
+        reviewToDelete.deleteOne()
+        // persist 
+        await dog.save()
+        // redirect to show page
+        return res.redirect(`/dogs/${req.params.dogId}`)
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send('<h1>An error occurred.</h1>')
     }
 })
 
